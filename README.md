@@ -1,45 +1,59 @@
-# QSL Multilingual Editor
+# Claude QSL Multilingual Editor
 
-A fully customisable QSL card editor optimised for 140×90 mm standard QSL card format.  
-Supports multilingual labels (English, German, French, Spanish) and custom field text.
+A fully customisable QSL card editor optimised for 140×90 mm standard QSL card format.
+Supports multilingual labels (English, German, French, Spanish) and fully editable field text.
 
-## Features
+🌐 Live Demo
+👉 QSL Card Editor Live Version
 
-- Live editing of Callsign, Grid, Location and QSO data.
-- Change label text for date, band, RST, mode, etc.
-- Full colour customisation (border, text, overlay).
-- Upload your own background images.
-- Save/Load settings locally.
-- Print directly to QSL card size (140×90 mm).
-- Language presets: English, German, French, Spanish.
+(Hosted on GitHub Pages.)
 
-## How to Use
+Features
+Live editing of Callsign, Grid, Location and QSO data.
 
-1. Open `QSL Multilingual.html` in any modern browser.
-2. Customise the fields and appearance as needed.
-3. Save your settings or print the final card directly.
+Change label text for Date, Band, RST, Mode, etc.
 
-## Requirements
+Full colour customisation (Border, Text, Overlay).
 
-- A modern web browser (tested with Chrome, Edge, Firefox).
+Upload your own background images.
 
-No installation needed, no external libraries.
+Save and load settings easily.
 
-## Example Screenshot
+Print directly to QSL card size (140×90 mm).
 
-### Settings Panel
-![Settings Screenshot](screenshot1.png)
+Language presets: English, German, French, Spanish.
 
-### Final QSL Card
-![QSL Card Screenshot](screenshot2.png)
+Example Screenshots
+Settings Panel
 
-## License
+Final QSL Card
 
-This project is licensed under the MIT License.  
-See [LICENSE](LICENSE) for details.
+How to Use
+Open Claude QSL Multilingual.html or your local copy in any browser.
 
----
+Customise fields, colours, and background.
 
-### Project Status
+Save your settings or print your card.
 
-Ongoing improvements planned, including additional languages and preset templates.
+Requirements
+A modern web browser (Chrome, Edge, Firefox).
+
+No installation needed. No server backend required.
+
+Project Status
+Future plans:
+
+More language presets.
+
+Additional templates.
+
+Direct export to PDF.
+
+License
+This project is licensed under the MIT License.
+See LICENSE for full details.
+
+Credits
+Created with care by Paul (DJØCU / G4ADF).
+Bringing beautiful QSL cards to the amateur radio community.
+
