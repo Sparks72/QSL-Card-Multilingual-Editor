@@ -27,7 +27,11 @@ No installation needed, no external libraries.
 
 ## Example Screenshot
 
-*(Add a screenshot of the editor and card preview here if you like.)*
+### Settings Panel
+![Settings Screenshot](screenshot1.png)
+
+### Final QSL Card
+![QSL Card Screenshot](screenshot2.png)
 
 ## License
 
