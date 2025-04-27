@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customizable QSL Card - Standard 140x90mm Size</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f0f0f0;
+    text-align: left;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+.settings-panel {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5mm;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+.settings-section {
+    margin-bottom: 10px;
+}
+.settings-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #1a4e8c;
+}
+.settings-subtitle {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10px 0 5px;
+    color: #555;
+}
+.form-group {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+.form-group label {
+    width: 120px;
+    font-size: 14px;
+}
+.form-group input, .form-group select {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+.settings-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+.settings-col {
+    flex: 1;
+    min-width: 250px;
+}
+/* QSL Card Styles */
+.qsl-card {
+    width: 140mm;
+    height: 90mm;
+    margin: 0 auto 5mm;
+    border: 2px solid #1a4e8c;
+    background-color: #1a4e8c;
+    padding: 3mm;
+    border-radius: 3mm;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.inner-card {
+    background-color: white;
+    padding: 2mm;
+    border-radius: 2mm;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.card-content {
+    background-image: url('/api/placeholder/500/300');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: overlay;
+    color: gold;
+    padding: 3mm;
+    position: relative;
+    /* Optimized height for image */
+    height: 65mm;
+    border: 0.5mm solid #ccc;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 2mm;
+    margin-bottom: 1mm;
+}
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(26, 123, 205, 0.3);
+    padding: 3mm;
+    border-radius: 2mm;
+}
+.text-container {
+    position: relative;
+    z-index: 10;
+}
+.callsign {
+    font-size: 16mm;
+    font-weight: bold;
+    margin-bottom: 1mm;
+    color: #E6B800;
+    text-shadow: 1mm 1mm 2mm rgba(0, 0, 0, 0.7);
+}
+.subtitle {
+    font-size: 5mm;
+    margin-bottom: 1mm;
+    color: #E6B800;
+    text-shadow: 1mm 1mm 2mm rgba(0, 0, 0, 0.7);
+}
+.location {
+    position: absolute;
+    right: 3mm;
+    bottom: 10mm;
+    font-size: 5mm;
+    text-align: right;
+    color: #E6B800;
+    text-shadow: 1mm 1mm 2mm rgba(0, 0, 0, 0.7);
+}
+.grid {
+    position: absolute;
+    right: 3mm;
+    bottom: 3mm;
+    font-size: 5mm;
+    text-align: right;
+    color: #E6B800;
+    text-shadow: 1mm 1mm 2mm rgba(0, 0, 0, 0.7);
+}
+/* Compact QSO Data Table */
+.qso-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    font-size: 2.7mm;
+    height: 16mm;
+    flex-grow: 1;
+}
+.qso-table td, .qso-table th {
+    border: 0.2mm solid black;
+    padding: 0.8mm 0.2mm;
+    text-align: center;
+    vertical-align: middle;
+    height: auto;
+}
+.qso-table input[type="text"] {
+    width: 95%;
+    height: 4mm;
+    padding: 0.3mm;
+    box-sizing: border-box;
+    font-size: 2.5mm;
+}
+.confirm-row {
+    height: 5mm;
+}
+.confirm-row input {
+    width: 95%;
+    height: 3.5mm;
+    margin: 0;
+    font-size: 2.5mm;
+}
+.confirm-text {
+    font-size: 2.7mm;
+    margin-right: 1mm;
+}
+.qsl-checkbox-cell {
+    vertical-align: middle;
+    width: 8%;
+}
+.checkbox-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    font-size: 2.5mm;
+}
+.checkbox-container div {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin: 0.2mm 0;
+}
+.checkbox-container input[type="checkbox"] {
+    transform: scale(0.7);
+    margin: 0 0 0 0.5mm;
+    vertical-align: middle;
+}
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+.action-button {
+    padding: 8px 15px;
+    background-color: #1a4e8c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    min-width: 100px;
+}
+.action-button:hover {
+    background-color: #15407a;
+}
+.action-button.secondary {
+    background-color: #777;
+}
+.action-button.secondary:hover {
+    background-color: #666;
+}
+.language-selector {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.language-selector select {
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.collapse-button {
+    background-color: #ddd;
+    color: #333;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 3px;
+    margin-right: 10px;
+}
+@media print {
+    body {
+        padding: 0;
+        margin: 0;
+        background: none;
+    }
+    .settings-panel, .action-buttons, .language-selector, .collapse-button {
+        display: none !important;
+    }
+    .qsl-card {
+        width: 140mm;
+        height: 90mm;
+        margin: 0;
+        padding: 3mm;
+        border: 2px solid #1a4e8c !important;
+        background-color: #1a4e8c !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    .inner-card {
+        background-color: white !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+    .card-content {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+    .card-overlay {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+    .callsign, .subtitle, .location, .grid {
+        color: #E6B800 !important;
+        text-shadow: 1mm 1mm 2mm rgba(0, 0, 0, 0.7) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+    @page {
+        size: 140mm 90mm;
+        margin: 0;
+    }
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="language-selector">
+        <button id="toggleSettings" class="collapse-button">Hide Settings</button>
+        <label for="languageSelect">Language:</label>
+        <select id="languageSelect">
+            <option value="en">English</option>
+            <option value="de">German (Deutsch)</option>
+            <option value="fr">French (Français)</option>
+            <option value="es">Spanish (Español)</option>
+            <option value="custom">Custom</option>
+        </select>
+        <button id="saveSettingsBtn" class="action-button secondary">Save Settings</button>
+        <button id="loadSettingsBtn" class="action-button secondary">Load Settings</button>
+    </div>
+    
+    <div id="settingsPanel" class="settings-panel">
+        <div class="settings-title">QSL Card Customization</div>
+        
+        <div class="settings-row">
+            <div class="settings-col">
+                <div class="settings-subtitle">Callsign Information</div>
+                <div class="form-group">
+                    <label for="callsign1">Callsign 1:</label>
+                    <input type="text" id="callsign1" value="DJOCU">
+                </div>
+                <div class="form-group">
+                    <label for="callsign2">Callsign 2:</label>
+                    <input type="text" id="callsign2" value="G4ADF">
+                </div>
+                <div class="form-group">
+                    <label for="subtitle1">Subtitle 1:</label>
+                    <input type="text" id="subtitle1" value="DOK M08">
+                </div>
+                <div class="form-group">
+                    <label for="subtitle2">Subtitle 2:</label>
+                    <input type="text" id="subtitle2" value="72/73 de Paul">
+                </div>
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" value="Fehmarn, Germany">
+                </div>
+                <div class="form-group">
+                    <label for="grid">Grid:</label>
+                    <input type="text" id="grid" value="JO54OK">
+                </div>
+            </div>
+            
+            <div class="settings-col">
+                <div class="settings-subtitle">Table Headers</div>
+                <div class="form-group">
+                    <label for="headerDate">Date:</label>
+                    <input type="text" id="headerDate" value="Date">
+                </div>
+                <div class="form-group">
+                    <label for="headerMonth">Month:</label>
+                    <input type="text" id="headerMonth" value="Month">
+                </div>
+                <div class="form-group">
+                    <label for="headerDay">Day:</label>
+                    <input type="text" id="headerDay" value="Day">
+                </div>
+                <div class="form-group">
+                    <label for="headerUTC">UTC:</label>
+                    <input type="text" id="headerUTC" value="UTC">
+                </div>
+                <div class="form-group">
+                    <label for="headerBand">Band:</label>
+                    <input type="text" id="headerBand" value="Band">
+                </div>
+                <div class="form-group">
+                    <label for="headerRST">RST:</label>
+                    <input type="text" id="headerRST" value="RST">
+                </div>
+                <div class="form-group">
+                    <label for="headerMode">Mode:</label>
+                    <input type="text" id="headerMode" value="Mode">
+                </div>
+                <div class="form-group">
+                    <label for="headerQSL">QSL:</label>
+                    <input type="text" id="headerQSL" value="QSL?">
+                </div>
+            </div>
+            
+            <div class="settings-col">
+                <div class="settings-subtitle">QSL Options & Text</div>
+                <div class="form-group">
+                    <label for="textPSE">PSE Text:</label>
+                    <input type="text" id="textPSE" value="PSE">
+                </div>
+                <div class="form-group">
+                    <label for="textTNX">TNX Text:</label>
+                    <input type="text" id="textTNX" value="TNX">
+                </div>
+                <div class="form-group">
+                    <label for="confirmText">Confirm Text:</label>
+                    <input type="text" id="confirmText" value="Confirm QSO with:">
+                </div>
+                
+                <div class="settings-subtitle">Colors</div>
+                <div class="form-group">
+                    <label for="cardBorderColor">Card Border:</label>
+                    <input type="color" id="cardBorderColor" value="#1a4e8c">
+                </div>
+                <div class="form-group">
+                    <label for="textColor">Text Color:</label>
+                    <input type="color" id="textColor" value="#E6B800">
+                </div>
+                <div class="form-group">
+                    <label for="overlayColor">Overlay Color:</label>
+                    <input type="color" id="overlayColor" value="#1a7bcd">
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <div class="settings-subtitle">Background Image</div>
+            <div class="form-group">
+                <label for="bgImageFile">Image:</label>
+                <input type="file" id="bgImageFile" accept="image/*">
+                <button id="updateBgBtn" class="action-button secondary">Update Background</button>
+            </div>
+            <div class="form-group">
+                <label for="overlayOpacity">Overlay Opacity:</label>
+                <input type="range" id="overlayOpacity" min="0" max="100" value="30" step="5">
+                <span id="opacityValue">30%</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="qsl-card">
+        <div class="inner-card">
+            <div class="card-content">
+                <div class="card-overlay">
+                    <div class="text-container">
+                        <div class="callsign" id="displayCallsign1">DJOCU</div>
+                        <div class="callsign" id="displayCallsign2">G4ADF</div>
+                        <div class="subtitle" id="displaySubtitle1">DOK M08</div>
+                        <div class="subtitle" id="displaySubtitle2">72/73 de Paul</div>
+                        <div class="location" id="displayLocation">Fehmarn, Germany</div>
+                        <div class="grid" id="displayGrid">JO54OK</div>
+                    </div>
+                </div>
+            </div>
+            <table class="qso-table">
+                <tr>
+                    <th id="displayHeaderDate">Date</th>
+                    <th id="displayHeaderMonth">Month</th>
+                    <th id="displayHeaderDay">Day</th>
+                    <th id="displayHeaderUTC">UTC</th>
+                    <th id="displayHeaderBand">Band</th>
+                    <th id="displayHeaderRST">RST</th>
+                    <th id="displayHeaderMode">Mode</th>
+                    <th id="displayHeaderQSL">QSL?</th>
+                </tr>
+                <tr>
+                    <td><input type="text" name="date"></td>
+                    <td><input type="text" name="month"></td>
+                    <td><input type="text" name="day"></td>
+                    <td><input type="text" name="utc"></td>
+                    <td><input type="text" name="band"></td>
+                    <td><input type="text" name="rst"></td>
+                    <td><input type="text" name="mode"></td>
+                    <td class="qsl-checkbox-cell">
+                        <div class="checkbox-container">
+                            <div><span id="displayTextPSE">PSE</span> <input type="checkbox" name="pse"></div>
+                            <div><span id="displayTextTNX">TNX</span> <input type="checkbox" name="tnx"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="confirm-row">
+                    <td colspan="7"><span class="confirm-text" id="displayConfirmText">Confirm QSO with:</span> <input type="text" name="qso_with"></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div class="action-buttons">
+        <button id="printBtn" class="action-button">Print QSL Card</button>
+        <button id="saveAsBtn" class="action-button">Save as File</button>
+        <button id="resetBtn" class="action-button secondary">Reset to Default</button>
+    </div>
+</div>
+
+<script>
+// Language Presets
+const languagePresets = {
+    en: {
+        callsign1: "A8ABC",
+        callsign2: "A8ABD",
+        subtitle1: "DOK XYZ",
+        subtitle2: "72/73 de Paul",
+        location: "Germany",
+        grid: "AB01DE",
+        headerDate: "Date",
+        headerMonth: "Month",
+        headerDay: "Day",
+        headerUTC: "UTC",
+        headerBand: "Band",
+        headerRST: "RST",
+        headerMode: "Mode",
+        headerQSL: "QSL?",
+        textPSE: "PSE",
+        textTNX: "TNX",
+        confirmText: "Confirm QSO with:"
+    },
+    de: {
+        callsign1: "A8ABC",
+        callsign2: "A8ABD",
+        subtitle1: "DOK XYZ",
+        subtitle2: "72/73 de Paul",
+        location: "Germany",
+        headerDate: "Datum",
+        headerMonth: "Monat",
+        headerDay: "Tag",
+        headerUTC: "UTC",
+        headerBand: "Band",
+        headerRST: "RST",
+        headerMode: "Mode",
+        headerQSL: "QSL?",
+        textPSE: "BITTE",
+        textTNX: "DANKE",
+        confirmText: "Bestätigung QSO mit:"
+    },
+    fr: {
+        callsign1: "A8ABC",
+        callsign2: "A8ABD",
+        subtitle1: "DOK XYZ",
+        subtitle2: "72/73 de Paul",
+        location: "Allemagne",
+        grid: "JO54OK",
+        headerDate: "Date",
+        headerMonth: "Mois",
+        headerDay: "Jour",
+        headerUTC: "UTC",
+        headerBand: "Bande",
+        headerRST: "RST",
+        headerMode: "Mode",
+        headerQSL: "QSL?",
+        textPSE: "SVP",
+        textTNX: "MERCI",
+        confirmText: "Confirmer QSO avec:"
+    },
+    es: {
+        callsign1: "A8ABC",
+        callsign2: "A8ABD",
+        subtitle1: "DOK XYZ",
+        subtitle2: "72/73 de Paul",
+        location: "Alemania",
+        grid: "JO54OK",
+        headerDate: "Fecha",
+        headerMonth: "Mes",
+        headerDay: "Día",
+        headerUTC: "UTC",
+        headerBand: "Banda",
+        headerRST: "RST",
+        headerMode: "Modo",
+        headerQSL: "QSL?",
+        textPSE: "POR FAVOR",
+        textTNX: "GRACIAS",
+        confirmText: "Confirmar QSO con:"
+    }
+};
+
+// Utility Functions
+function updateDisplayText() {
+    // Update all display text elements based on input values
+    document.getElementById('displayCallsign1').textContent = document.getElementById('callsign1').value;
+    document.getElementById('displayCallsign2').textContent = document.getElementById('callsign2').value;
+    document.getElementById('displaySubtitle1').textContent = document.getElementById('subtitle1').value;
+    document.getElementById('displaySubtitle2').textContent = document.getElementById('subtitle2').value;
+    document.getElementById('displayLocation').textContent = document.getElementById('location').value;
+    document.getElementById('displayGrid').textContent = document.getElementById('grid').value;
+    
+    document.getElementById('displayHeaderDate').textContent = document.getElementById('headerDate').value;
+    document.getElementById('displayHeaderMonth').textContent = document.getElementById('headerMonth').value;
+    document.getElementById('displayHeaderDay').textContent = document.getElementById('headerDay').value;
+    document.getElementById('displayHeaderUTC').textContent = document.getElementById('headerUTC').value;
+    document.getElementById('displayHeaderBand').textContent = document.getElementById('headerBand').value;
+    document.getElementById('displayHeaderRST').textContent = document.getElementById('headerRST').value;
+    document.getElementById('displayHeaderMode').textContent = document.getElementById('headerMode').value;
+    document.getElementById('displayHeaderQSL').textContent = document.getElementById('headerQSL').value;
+    
+    document.getElementById('displayTextPSE').textContent = document.getElementById('textPSE').value;
+    document.getElementById('displayTextTNX').textContent = document.getElementById('textTNX').value;
+    document.getElementById('displayConfirmText').textContent = document.getElementById('confirmText').value;
+    
+    // Update colors
+    const textColor = document.getElementById('textColor').value;
+    const cardBorderColor = document.getElementById('cardBorderColor').value;
+    const overlayColor = document.getElementById('overlayColor').value;
+    const opacity = document.getElementById('overlayOpacity').value / 100;
+    
+    document.querySelector('.qsl-card').style.borderColor = cardBorderColor;
+    document.querySelector('.qsl-card').style.backgroundColor = cardBorderColor;
+    
+    document.querySelectorAll('.callsign, .subtitle, .location, .grid').forEach(el => {
+        el.style.color = textColor;
+    });
+    
+    // Convert hex to rgba for overlay
+    const r = parseInt(overlayColor.slice(1, 3), 16);
+    const g = parseInt(overlayColor.slice(3, 5), 16);
+    const b = parseInt(overlayColor.slice(5, 7), 16);
+    document.querySelector('.card-overlay').style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
+function loadLanguagePreset(language) {
+    if (language === 'custom') {
+        return; // Don't change anything for custom selection
+    }
+    
+    const preset = languagePresets[language];
+    if (!preset) return;
+    
+    // Apply preset values to all input fields
+    Object.keys(preset).forEach(key => {
+        if (document.getElementById(key)) {
+            document.getElementById(key).value = preset[key];
+        }
+    });
+    
+    // Update display
+    updateDisplayText();
+}
+
+function getCurrentSettings() {
+    const settings = {};
+    
+    // Collect all input values
+    document.querySelectorAll('#settingsPanel input').forEach(input => {
+        if (input.id && input.id !== 'bgImageFile') {
+            settings[input.id] = input.value;
+        }
+    });
+    
+    // Include background image if available
+    if (localStorage.getItem('qslCardBackground')) {
+        settings.backgroundImage = localStorage.getItem('qslCardBackground');
+    }
+    
+    return settings;
+}
+
+function applySettings(settings) {
+    if (!settings) return;
+    
+    // Apply all settings to inputs
+    Object.keys(settings).forEach(key => {
+        if (document.getElementById(key) && key !== 'backgroundImage') {
+            document.getElementById(key).value = settings[key];
+        }
+    });
+    
+    // Apply background image if available
+    if (settings.backgroundImage) {
+        localStorage.setItem('qslCardBackground', settings.backgroundImage);
+        document.querySelector('.card-content').style.backgroundImage = `url(${settings.backgroundImage})`;
+    }
+    
+    // Update display
+    updateDisplayText();
+}
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Setup input change listeners
+    document.querySelectorAll('#settingsPanel input').forEach(input => {
+        input.addEventListener('input', updateDisplayText);
+    });
+    
+    // Language selector
+    document.getElementById('languageSelect').addEventListener('change', function() {
+        loadLanguagePreset(this.value);
+    });
+    
+    // Toggle settings panel
+    document.getElementById('toggleSettings').addEventListener('click', function() {
+        const panel = document.getElementById('settingsPanel');
+        if (panel.style.display === 'none') {
+            panel.style.display = 'block';
+            this.textContent = 'Hide Settings';
+        } else {
+            panel.style.display = 'none';
+            this.textContent = 'Show Settings';
+        }
+    });
+    
+    // Background image
+    document.getElementById('updateBgBtn').addEventListener('click', function() {
+        const fileInput = document.getElementById('bgImageFile');
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageUrl = e.target.result;
+                document.querySelector('.card-content').style.backgroundImage = `url(${imageUrl})`;
+                localStorage.setItem('qslCardBackground', imageUrl);
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            alert('Please select an image file');
+        }
+    });
+    
+    // Opacity control
+    document.getElementById('overlayOpacity').addEventListener('input', function() {
+        const opacity = this.value / 100;
+        document.getElementById('opacityValue').textContent = this.value + '%';
+        
+        // Get overlay color and convert to rgba
+        const overlayColor = document.getElementById('overlayColor').value;
+        const r = parseInt(overlayColor.slice(1, 3), 16);
+        const g = parseInt(overlayColor.slice(3, 5), 16);
+        const b = parseInt(overlayColor.slice(5, 7), 16);
+        
+        document.querySelector('.card-overlay').style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    });
+    
+    // Print button
+    document.getElementById('printBtn').addEventListener('click', function() {
+        const cardContent = document.querySelector('.card-content');
+        const currentBgImage = cardContent.style.backgroundImage;
+        const overlay = document.querySelector('.card-overlay');
+        const currentOpacity = overlay.style.backgroundColor;
+        
+        // Apply the current background image directly for printing
+        if (currentBgImage) {
+            const style = document.createElement('style');
+            style.textContent = `
+                @media print {
+                    .card-content {
+                        background-image: ${currentBgImage} !important;
+                    }
+                    .card-overlay {
+                        background-color: ${currentOpacity || 'rgba(26, 123, 205, 0.3)'} !important;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        setTimeout(() => {
+            try {
+                window.print();
+            } catch (e) {
+                console.error("Print error:", e);
+                alert("Print functionality not available. Please use your browser's print function (Ctrl+P or Cmd+P).");
+            }
+        }, 100);
+    });
+    
+    // Save settings button
+    document.getElementById('saveSettingsBtn').addEventListener('click', function() {
+        const settings = getCurrentSettings();
+        const settingsJson = JSON.stringify(settings);
+        
+        try {
+            localStorage.setItem('qslCardSettings', settingsJson);
+            alert('Settings saved successfully!');
+        } catch (e) {
+            console.error('Error saving settings:', e);
+            alert('Error saving settings. The settings file might be too large.');
+            
+            // Offer download as alternative if localStorage fails
+            if (confirm('Would you like to download the settings as a file instead?')) {
+                const blob = new Blob([settingsJson], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'qsl_card_settings.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+    });
+    
+    // Load settings button
+    document.getElementById('loadSettingsBtn').addEventListener('click', function() {
+        // Try loading from localStorage first
+        const savedSettings = localStorage.getItem('qslCardSettings');
+        
+        if (savedSettings) {
+            try {
+                const settings = JSON.parse(savedSettings);
+                applySettings(settings);
+                alert('Settings loaded successfully!');
+            } catch (e) {
+                console.error('Error parsing saved settings:', e);
+                alert('Error loading settings. The saved settings might be corrupted.');
+            }
+        } else {
+            // If no localStorage settings, offer file upload
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = '.json';
+            
+            fileInput.onchange = function(e) {
+                if (fileInput.files && fileInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const settings = JSON.parse(e.target.result);
+                            applySettings(settings);
+                            alert('Settings loaded successfully from file!');
+                        } catch (err) {
+                            console.error('Error parsing settings file:', err);
+                            alert('Error loading settings. The file might be corrupted or invalid.');
+                        }
+                    };
+                    reader.readAsText(fileInput.files[0]);
+                }
+            };
+            
+            fileInput.click();
+        }
+    });
+    
+    // Save as File button
+    document.getElementById('saveAsBtn').addEventListener('click', function() {
+        const settings = getCurrentSettings();
+        const settingsJson = JSON.stringify(settings, null, 2); // Pretty-print with indentation
+        
+        const blob = new Blob([settingsJson], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'qsl_card_settings.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+    
+    // Reset button
+    document.getElementById('resetBtn').addEventListener('click', function() {
+        if (confirm('Are you sure you want to reset all settings to default?')) {
+            // Reset to English preset
+            loadLanguagePreset('en');
+            document.getElementById('languageSelect').value = 'en';
+            
+            // Reset colors
+            document.getElementById('cardBorderColor').value = '#1a4e8c';
+            document.getElementById('textColor').value = '#E6B800';
+            document.getElementById('overlayColor').value = '#1a7bcd';
+            document.getElementById('overlayOpacity').value = 30;
+            document.getElementById('opacityValue').textContent = '30%';
+            
+            // Reset background image
+            document.querySelector('.card-content').style.backgroundImage = 'url("/api/placeholder/500/300")';
+            localStorage.removeItem('qslCardBackground');
+            
+            // Update display
+            updateDisplayText();
+        }
+    });
+    
+    // Initialize
+    // Load background if saved previously
+    if (localStorage.getItem('qslCardBackground')) {
+        document.querySelector('.card-content').style.backgroundImage = 
+            'url(' + localStorage.getItem('qslCardBackground') + ')';
+    }
+    
+    // Check for saved settings
+    const savedSettings = localStorage.getItem('qslCardSettings');
+    if (savedSettings) {
+        try {
+            const settings = JSON.parse(savedSettings);
+            applySettings(settings);
+            // Set language selector to custom since we're loading saved settings
+            document.getElementById('languageSelect').value = 'custom';
+        } catch (e) {
+            console.error('Error loading saved settings:', e);
+            // If error, load default English
+            loadLanguagePreset('en');
+        }
+    } else {
+        // No saved settings, initialize with English
+        loadLanguagePreset('en');
+    }
+    
+    // Update display initially
+    updateDisplayText();
+});
+</script>
+</body>
+</html>
