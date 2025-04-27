@@ -1,34 +1,80 @@
-# Claude QSL Multilingual Editor
+# QSL Multilingual Editor
 
-A fully customisable QSL card editor optimised for 140×90 mm standard QSL card format.
+[![GitHub Pages](https://img.shields.io/badge/View%20Live-QSL%20Editor-blue?logo=github)](https://sparks72.github.io/QSL-Card-Multilinqual-Editor/)
+
+A fully customisable QSL card editor optimised for 140×90 mm standard QSL card format.  
 Supports multilingual labels (English, German, French, Spanish) and fully editable field text.
 
-🌐 Live Demo
-👉 QSL Card Editor Live Version
+---
 
-(Hosted on GitHub Pages.)
+## 🌐 Live Demo
 
-Features
-Live editing of Callsign, Grid, Location and QSO data.
+👉 [QSL Card Editor Live Version](https://sparks72.github.io/QSL-Card-Multilinqual-Editor/)
 
-Change label text for Date, Band, RST, Mode, etc.
+*(Hosted on GitHub Pages.)*
 
-Full colour customisation (Border, Text, Overlay).
+---
 
-Upload your own background images.
+## Features
 
-Save and load settings easily.
+- Live editing of Callsign, Grid, Location and QSO data.
+- Change label text for Date, Band, RST, Mode, etc.
+- Full colour customisation (Border, Text, Overlay).
+- Upload your own background images.
+- Save and load settings easily.
+- Print directly to QSL card size (140×90 mm).
+- Language presets: English, German, French, Spanish.
 
-Print directly to QSL card size (140×90 mm).
+---
 
-Language presets: English, German, French, Spanish.
+## Example Screenshots
 
-Example Screenshots
-Settings Panel
+### Settings Panel
+![Settings Screenshot](screenshot1.png)
 
-Final QSL Card
+### Final QSL Card
+![QSL Card Screenshot](screenshot2.png)
 
-How to Use
+---
+
+## How to Use
+
+1. Open ['QSL Multilingual.html`](https://sparks72.github.io/QSL-Card-Multilinqual-Editor/) or your local copy in any browser.
+2. Customise fields, colours, and background.
+3. Save your settings or print your card.
+
+---
+
+## Requirements
+
+- A modern web browser (Chrome, Edge, Firefox).
+- No installation needed. No server backend required.
+
+---
+
+## Project Status
+
+Future plans:
+- More language presets.
+- Additional templates.
+- Direct export to PDF.
+
+---
+
+## License
+
+This project is licensed under the MIT License.  
+See [LICENSE](LICENSE) for full details.
+
+---
+
+## Credits
+
+Created with care by Paul (DJØCU / G4ADF).  
+Bringing beautiful QSL cards to the amateur radio community.
+
+---
+
 Open Claude QSL Multilingual.html or your local copy in any browser.
 
 Customise fields, colours, and background.
