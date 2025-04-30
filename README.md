@@ -1,6 +1,6 @@
 # QSL Multilingual Editor
 
-[![GitHub Pages](https://img.shields.io/badge/View%20Live-QSL%20Editor-blue?logo=github)](https://sparks72.github.io/QSL-Card-Multilinqual-Editor/)
+[![GitHub Pages](https://img.shields.io/badge/View%20Live-QSL%20Editor-blue?logo=github)](https://sparks72.github.io/QSL-Card-Multilingual-Editor/)
 
 A fully customisable QSL card editor optimised for 140×90 mm standard QSL card format.  
 Supports multilingual labels (English, German, French, Spanish) and fully editable field text.
@@ -9,7 +9,7 @@ Supports multilingual labels (English, German, French, Spanish) and fully editab
 
 ## 🌐 Live Demo
 
-👉 [QSL Card Editor Live Version](https://sparks72.github.io/QSL-Card-Multilinqual-Editor/)
+👉 [QSL Card Editor Live Version](https://sparks72.github.io/QSL-Card-Multilingual-Editor/)
 
 *(Hosted on GitHub Pages.)*
 
@@ -39,7 +39,7 @@ Supports multilingual labels (English, German, French, Spanish) and fully editab
 
 ## How to Use
 
-1. Open ['QSL Multilingual.html`](https://sparks72.github.io/QSL-Card-Multilinqual-Editor/) or your local copy in any browser.
+1. Open ['QSL Multilingual.html`](https://sparks72.github.io/QSL-Card-Multilingual-Editor/) or your local copy in any browser.
 2. Customise fields, colours, and background.
 3. Save your settings or print your card.
 
